@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { scoreActions } from "../store/score";
 
@@ -12,9 +12,12 @@ const isInputValid = value => value.trim().length;
 
 const ScoreForm = () => {
   const dispatch = useDispatch();
+  const runsToWin = useSelector(state => state.score.runsToWin);
+  const wicketCount = useSelector(state => state.score.wicketCount);
+  const ballsLeft = useSelector(state => state.score.ballsLeft);
 
   const [runs, setRuns] = useState(0);
-  const [wicket, setWicket] = useState("no");
+  const [wicket, setWicket] = useState(WICKET.NO);
 
   const runsChangeHandler = e => {
     const runs = e.target.value;
@@ -40,6 +43,9 @@ const ScoreForm = () => {
     if (runs && wicket === WICKET.YES)
       dispatch(scoreActions.updateRunsAndWicket(runs));
   };
+
+  const isSubmitBtnDisabled =
+    runsToWin <= 0 || wicketCount === 10 || ballsLeft === 0;
 
   return (
     <div className="score-form-container">
@@ -82,7 +88,11 @@ const ScoreForm = () => {
           </div>
         </div>
 
-        <button className="btn btn-primary" type="submit">
+        <button
+          disabled={isSubmitBtnDisabled}
+          className="btn btn-primary"
+          type="submit"
+        >
           Update Score
         </button>
       </form>

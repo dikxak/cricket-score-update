@@ -26,6 +26,8 @@ const scoreSlice = createSlice({
       state.totalRuns += action.payload;
       state.runsToWin -= action.payload;
       state.ballsLeft--;
+
+      if (state.runsToWin <= 0) state.runsToWin = 0;
     },
 
     updateWicket(state) {
@@ -38,6 +40,8 @@ const scoreSlice = createSlice({
       state.runsToWin -= action.payload;
       state.wicketCount++;
       state.ballsLeft--;
+
+      if (state.runsToWin <= 0) state.runsToWin = 0;
     },
   },
 });
