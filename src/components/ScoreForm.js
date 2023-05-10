@@ -3,6 +3,11 @@ import { useDispatch } from "react-redux";
 
 import { scoreActions } from "../store/score";
 
+const WICKET = {
+  YES: "yes",
+  NO: "no",
+};
+
 const isInputValid = value => value.trim().length;
 
 const ScoreForm = () => {
@@ -26,13 +31,13 @@ const ScoreForm = () => {
   const formSubmitHandler = e => {
     e.preventDefault();
 
-    if (!runs && wicket === "no") dispatch(scoreActions.updateBalls());
+    if (!runs && wicket === WICKET.NO) dispatch(scoreActions.updateBalls());
 
-    if (runs && wicket === "no") dispatch(scoreActions.updateRuns(runs));
+    if (runs && wicket === WICKET.NO) dispatch(scoreActions.updateRuns(runs));
 
-    if (wicket === "yes" && !runs) dispatch(scoreActions.updateWicket());
+    if (wicket === WICKET.YES && !runs) dispatch(scoreActions.updateWicket());
 
-    if (runs && wicket === "yes")
+    if (runs && wicket === WICKET.YES)
       dispatch(scoreActions.updateRunsAndWicket(runs));
   };
 
